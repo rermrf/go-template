@@ -1,0 +1,61 @@
+fail_fast: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+  - repo: local
+    hooks:
+      - id: go-fmt
+        name: go fmt
+        description: 格式化 Go 文件
+        entry: bash -c 'go fmt ./...'
+        language: golang
+        files: \.go$
+        args: []
+      - id: go-mod-tidy
+        name: go mod tidy
+        description: 确保 go.mod 和 go.sum 文件整洁
+        entry: bash -c 'go mod tidy'
+        language: golang
+        files: \.*$
+        pass_filenames: false
+      - id: typos
+        name: typos
+        description: 检查拼写错误
+        entry: bash -c 'typos'
+        language: rust
+        files: \.*$
+        pass_filenames: false
+      - id: go-vet
+        name: go vet
+        description: 检查 Go 代码中的常见错误
+        entry: bash -c 'go vet ./...'
+        language: golang
+        files: \.go$
+        pass_filenames: false
+      - id: staticcheck
+        name: staticcheck
+        description: 使用 staticcheck 对 Go 源代码进行静态检查
+        entry: bash -c 'staticcheck ./...'
+        language: golang
+        files: \.go$
+        pass_filenames: false
+      - id: go-test
+        name: go test
+        description: 运行项目的单元测试
+        entry: bash -c 'go test ./...'
+        language: golang
+        files: \.go$
+        pass_filenames: false
